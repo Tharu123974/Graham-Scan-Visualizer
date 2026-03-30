@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graham Scan Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Graham Scan Visualizer</h1>
+        <div class="header-controls" style="display:flex; gap:1rem; align-items:center;">
+            <a href="help.html" class="lock-btn" style="text-decoration:none;">ℹ️ Help</a>
+            <button id="btn-lock-canvas" class="lock-btn">🔓 Canvas Unlocked</button>
+            <div class="theme-dropdown-container">
+                <select id="theme-select" class="theme-select">
+                    <optgroup label="Classic">
+                        <option value="dark" selected>Dark Mode</option>
+                        <option value="light">Light Mode</option>
+                    </optgroup>
+                    <optgroup label="Syntax Highlighted">
+                        <option value="monokai">Monokai</option>
+                        <option value="dracula">Dracula</option>
+                        <option value="solarized">Solarized</option>
+                        <option value="gruvbox">Gruvbox</option>
+                        <option value="nord">Nord</option>
+                        <option value="material">Material</option>
+                    </optgroup>
+                    <optgroup label="Vibrant Styles">
+                        <option value="cyber">Cyberpunk</option>
+                        <option value="synthwave">Synthwave</option>
+                        <option value="neon">Neon Night</option>
+                        <option value="ocean">Ocean Blue</option>
+                    </optgroup>
+                </select>
+            </div>
+        </div>
+    </header>
+    <main class="container">
+        <aside class="sidebar">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="tab-controls">Controls</button>
+                <button class="tab-btn" data-tab="tab-logs">Algorithm Log</button>
+                <button class="tab-btn" data-tab="tab-points">Points (<span id="points-count-tab">0</span>)</button>
+            </div>
+            
+            <div class="tab-content" id="tab-controls">
+                <section class="controls">
+                    <h2>Settings & Interaction</h2>
+                    <div class="input-group">
+                        <input type="number" id="input-x" placeholder="X coord">
+                        <input type="number" id="input-y" placeholder="Y coord">
+                        <button id="btn-add">Add Point</button>
+                    </div>
+                    <button id="btn-demo">Load Demo Points</button>
+                    <hr class="separator"/>
+                    <div class="action-buttons">
+                        <button id="btn-start" class="primary">Do Convexhull</button>
+                        <div style="display:flex;gap:0.5rem">
+                            <button id="btn-prev" disabled style="flex:1">Prev Step</button>
+                            <button id="btn-next" disabled style="flex:1">Next Step</button>
+                        </div>
+                        <button id="btn-animate" disabled>Animate</button>
+                        <button id="btn-restart" class="secondary" disabled>Restart Setup</button>
+                        <button id="btn-reset" class="danger">Clear All</button>
+                    </div>
+                </section>
+            </div>
+
+            <div class="tab-content hidden" id="tab-logs">
+                <section class="algo-logs">
+                    <h2>Algorithm Log & Results</h2>
+                    <div id="log-text">Logs will appear here once the algorithm begins.</div>
+                    <button id="btn-download" disabled>Download Text File</button>
+                </section>
+            </div>
+            
+            <div class="tab-content hidden" id="tab-points">
+                <section class="points-list">
+                    <h2>Input Coordinates (<span id="points-count">0</span>)</h2>
+                    <ul id="points-ul">
+                        <!-- Points will be listed here -->
+                    </ul>
+                </section>
+            </div>
+        </aside>
+        <section class="visualization">
+            <canvas id="canvas"></canvas>
+            <div class="status-panel">
+                <h3>Algorithm Status</h3>
+                <p id="status-text">Welcome! Add points by clicking on the canvas or using the input fields.<br/>Click 'Load Demo Points' for a quick start.</p>
+            </div>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>

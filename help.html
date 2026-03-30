@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help - Graham Scan Theory & Documentation</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Specific Styles for Help Page */
+        .help-container { 
+            flex: 1; 
+            overflow-y: auto; 
+            padding: 2rem; 
+            background-color: var(--canvas-bg);
+        }
+        .help-content { 
+            max-width: 900px; 
+            margin: 0 auto; 
+            background: var(--panel-bg); 
+            padding: 3rem; 
+            border-radius: 8px; 
+            border: 1px solid var(--border-color); 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+        }
+        .help-content h2 { 
+            color: var(--primary-color); 
+            margin-top: 2.5rem; 
+            margin-bottom: 1.5rem; 
+            border-bottom: 1px solid var(--border-color); 
+            padding-bottom: 0.5rem; 
+            font-size: 1.8rem;
+        }
+        .help-content h2:first-child { margin-top: 0; }
+        .help-content h3 {
+            color: var(--text-color);
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+        .help-content p, .help-content li { 
+            line-height: 1.8; 
+            margin-bottom: 1.2rem; 
+            font-size: 1.15rem; 
+        }
+        .help-content ul, .help-content ol { 
+            margin-left: 2rem; 
+            margin-bottom: 1.5rem; 
+        }
+        .math-block { 
+            background: var(--bg-color); 
+            padding: 1.5rem; 
+            border-left: 4px solid var(--primary-color); 
+            font-family: 'Courier New', Courier, monospace; 
+            font-size: 1.2rem; 
+            margin: 1.5rem 0; 
+            overflow-x: auto; 
+            white-space: pre; 
+            color: var(--text-color);
+        }
+        .back-link { 
+            text-decoration: none; 
+            color: var(--text-color); 
+            font-weight: bold; 
+            padding: 0.5rem 1rem; 
+            border: 1px solid var(--border-color); 
+            border-radius: 4px; 
+            transition: all 0.2s; 
+        }
+        .back-link:hover { 
+            color: #fff; 
+            background-color: var(--primary-color); 
+            border-color: var(--primary-color); 
+        }
+        .math-formula { 
+            font-family: 'Times New Roman', Times, serif; 
+            font-style: italic; 
+            font-size: 1.2rem;
+        }
+        .highlight {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        /* Offline matrix construction using pure HTML/CSS grids */
+        .matrix-table {
+            display: inline-table;
+            border-left: 2px solid var(--text-color);
+            border-right: 2px solid var(--text-color);
+            padding: 0 0.5rem;
+            margin: 1rem 0;
+            vertical-align: middle;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 1.3rem;
+        }
+        .matrix-table td {
+            padding: 0.5rem 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div style="display:flex; align-items:center; gap:1.5rem;">
+            <a href="index.html" class="back-link">← Back to Visualizer</a>
+            <h1>Graham Scan - Theory & Help</h1>
+        </div>
+        <div class="theme-dropdown-container">
+            <select id="theme-select" class="theme-select">
+                <optgroup label="Classic">
+                    <option value="dark" selected>Dark Mode</option>
+                    <option value="light">Light Mode</option>
+                </optgroup>
+                <optgroup label="Syntax Highlighted">
+                    <option value="monokai">Monokai</option>
+                    <option value="dracula">Dracula</option>
+                    <option value="solarized">Solarized</option>
+                    <option value="gruvbox">Gruvbox</option>
+                    <option value="nord">Nord</option>
+                    <option value="material">Material</option>
+                </optgroup>
+                <optgroup label="Vibrant Styles">
+                    <option value="cyber">Cyberpunk</option>
+                    <option value="synthwave">Synthwave</option>
+                    <option value="neon">Neon Night</option>
+                    <option value="ocean">Ocean Blue</option>
+                </optgroup>
+            </select>
+        </div>
+    </header>
+    <main class="container">
+        <div class="help-container">
+            <div class="help-content">
+                
+                <h2>1. What is the Convex Hull?</h2>
+                <p>The <span class="highlight">Convex Hull</span> of a set of points is the smallest convex polygon that contains all the points of it. Imagine stretching a rubber band around the outermost points in a wooden pegboard; the boundary the band forms when it snaps tight is precisely the convex hull.</p>
+                <p>A polygon is defined as "convex" if the line segment connecting any two points inside the polygon lies entirely inside the polygon. Therefore, computing the convex hull creates the absolute minimal bounding convex shape encompassing the entire dataset.</p>
+
+                <h2>2. Real Time Applications</h2>
+                <ul>
+                    <li><strong>Collision Detection:</strong> In video games, physics simulations, and robotics, determining if complex 3D or 2D objects interect is computationally expensive. Substituting a complex mesh with its Convex Hull allows engines to discard collision checks instantly if the hulls don't intersect.</li>
+                    <li><strong>Computer Vision & Pattern Recognition:</strong> Used to track finger movements in hand-gesture recognition and mapping boundaries of organ regions in MRI scans.</li>
+                    <li><strong>Geographic Information Systems (GIS):</strong> Defining the territorial ranges of migratory animal coordinates, analyzing watershed boundaries, or evaluating epidemiological disease outbreak clusters.</li>
+                    <li><strong>Mathematics & Logistics:</strong> Solving the farthest-pair problem computationally efficiently since the farthest two points in a dataset will eternally lie squarely on the perimeter of its convex hull.</li>
+                </ul>
+
+                <h2>3. Procedure (Graham Scan Algorithm)</h2>
+                <p>The Graham's Scan method solves the convex hull linearly in optimal time by deploying an angle-sorting mechanism and a stack data structure.</p>
+                <ol>
+                    <li><strong>Find the Pivot Point:</strong> Identify the point <span class="math-formula">P<sub>0</sub></span> having the lowest <span class="math-formula">Y</span> coordinate. If there is a tie, select the point with the lowest <span class="math-formula">X</span> coordinate.</li>
+                    <li><strong>Sort by Polar Angle:</strong> Sort all remaining points (<span class="math-formula">P<sub>1</sub>, P<sub>2</sub>, ... P<sub>n</sub></span>) by their polar angle in counterclockwise order with respect to the pivot <span class="math-formula">P<sub>0</sub></span>.</li>
+                    <li><strong>Initialize Stack:</strong> Push <span class="math-formula">P<sub>0</sub></span> and <span class="math-formula">P<sub>1</sub></span> onto the computational stack.</li>
+                    <li><strong>Iterate & Screen:</strong> For every subsequent point <span class="math-formula">P<sub>i</sub></span>:
+                        <ul>
+                            <li>Compute the geometry between the top two points on the stack and the new point <span class="math-formula">P<sub>i</sub></span>.</li>
+                            <li>If the trio traces a <span class="highlight">Right Turn</span> or constitutes a collinear flat-line, <strong>POP</strong> the pinnacle origin point off from the stack and re-assess.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Push Sequence:</strong> When the computational trajectory forms a <span class="highlight">Left Turn (Counter-Clockwise)</span>, push <span class="math-formula">P<sub>i</sub></span> strictly onto the stack. Move iteratively until all points are processed. The finalized stack reveals your Convex Hull boundary!</li>
+                </ol>
+
+                <h2>4. The Determinant Formula (Orientation Mapping)</h2>
+                <p>To mathematically determine whether evaluating three consecutive coordinates traces a <span class="highlight">Counter-Clockwise (Left)</span>, <span class="highlight">Clockwise (Right)</span>, or <span class="highlight">Collinear (Straight)</span> line, the Graham Scan harnesses a 2D cross-product evaluation rooted essentially on a <span class="math-formula">3 × 3</span> matrix determinant spanning coordinates <span class="math-formula">A(x<sub>1</sub>, y<sub>1</sub>)</span>, <span class="math-formula">B(x<sub>2</sub>, y<sub>2</sub>)</span>, and <span class="math-formula">C(x<sub>3</sub>, y<sub>3</sub>)</span>:</p>
+
+                <table class="matrix-table">
+                    <tr>
+                        <td>x<sub>1</sub></td>
+                        <td>y<sub>1</sub></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>x<sub>2</sub></td>
+                        <td>y<sub>2</sub></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>x<sub>3</sub></td>
+                        <td>y<sub>3</sub></td>
+                        <td>1</td>
+                    </tr>
+                </table>
+
+                <p>Expanded mathematically into offline scalar mapping without requiring external matrix libraries, the computationally optimized expression evaluates:</p>
+
+                <div class="math-block">
+Cross Product Formula (&Delta;) = (x<sub>2</sub> - x<sub>1</sub>)(y<sub>3</sub> - y<sub>1</sub>) - (y<sub>2</sub> - y<sub>1</sub>)(x<sub>3</sub> - x<sub>1</sub>)
+                </div>
+
+                <p>We interpret the resultant value <span class="math-formula">&Delta;</span> natively as:</p>
+                <ul>
+                    <li><span class="highlight">If &Delta; > 0 :</span> Counter-Clockwise (Left Turn). Polygon boundary is confirmed dynamically valid.</li>
+                    <li><span class="highlight">If &Delta; < 0 :</span> Clockwise (Right Turn). Internal concavity is detected (Pop the stack!).</li>
+                    <li><span class="highlight">If &Delta; = 0 :</span> Collinear alignment. Erase mid-point anomalies and proceed to outermost apex.</li>
+                </ul>
+
+                <h2>5. Time & Space Complexity</h2>
+                <div style="display:flex; gap: 2rem; margin-top:2rem;">
+                    <div style="flex:1; background: var(--bg-color); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color);">
+                        <h3 style="margin-top:0; color: var(--primary-color);">Time Complexity</h3>
+                        <p style="font-size: 2rem; font-family: monospace; font-weight: bold; color: var(--text-color);">O(N log N)</p>
+                        <p style="font-size:1rem; line-height: 1.5;">Finding the fundamental pivot <span class="math-formula">P<sub>0</sub></span> takes <span class="math-formula">O(N)</span>. Screening standard cross-products operates identically in linear <span class="math-formula">O(N)</span> stack phases. However, executing a complete <span class="highlight">Polar Angle Sort</span> dominates at <span class="math-formula">O(N log N)</span> bounds.</p>
+                    </div>
+                    <div style="flex:1; background: var(--bg-color); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color);">
+                        <h3 style="margin-top:0; color: var(--primary-color);">Space Complexity</h3>
+                        <p style="font-size: 2rem; font-family: monospace; font-weight: bold; color: var(--text-color);">O(N)</p>
+                        <p style="font-size:1rem; line-height: 1.5;">In worst-case scenarios—where every point evaluates sequentially to the hull perimeters independently (e.g. a circular perimeter configuration)—the dynamic Stack structure will occupy <span class="math-formula">O(N)</span> proportional coordinate space directly mapping linearly.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+    <script>
+        // Inline Theme System to ensure seamless offline theme transitions identically to index.html
+        const themeSelect = document.getElementById('theme-select');
+        
+        function updateColors() {
+            // Force redraw/re-sync if needed on help page if internal css changes
+            const style = getComputedStyle(document.body);
+        }
+
+        themeSelect.addEventListener('change', (e) => {
+            const theme = e.target.value;
+            // Set HTML attribute mapping to style.css vars
+            document.documentElement.setAttribute('data-theme', theme);
+            setTimeout(updateColors, 50);
+            
+            // Optional: Save preference to localStorage if desired across pages
+            localStorage.setItem('grahamScanTheme', theme);
+        });
+
+        // Initialize saved theme matching
+        const savedTheme = localStorage.getItem('grahamScanTheme') || 'dark';
+        themeSelect.value = savedTheme;
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        setTimeout(updateColors, 100);
+    </script>
+</body>
+</html>
